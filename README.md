@@ -1,102 +1,480 @@
-# AI-Powered HCP CRM Interaction Assistant
 
-An AI-First CRM Healthcare Professional (HCP) Interaction Screen. This application provides a modern split-screen experience:
-* **Left Panel**: A professional, structured CRM form detailing 18 fields of HCP interaction details. In accordance with requirements, this form is **disabled/read-only** for manual keyboard edits.
-* **Right Panel**: A conversational AI chat assistant. Users communicate in natural language to log details, modify specific fields, generate summaries, validate fields, and suggest next actions. The AI agent automates these actions via LangGraph tools.
+# Project Title
 
----
+A brief description of what this project does and who it's for
 
-## 🛠️ Technology Stack
-* **Frontend**: React (Vite), Redux Toolkit (state management), Vanilla CSS (premium dark-mode styling), Lucide React (vector icons).
-* **Backend**: Python, FastAPI (web API framework), LangGraph (agent state graph orchestration), SQLAlchemy + SQLite (local database log state storage).
-* **LLM Core**: LangChain wrappers supporting **Groq** (`gemma2-9b-it` or `llama-3.3-70b-versatile`), **Google Gemini** (`gemini-1.5-flash`), or **OpenAI** (`gpt-4o-mini`).
-* **Resilient Dual-Mode Execution**:
-  * **API Key Connected**: Runs the real LangGraph State Graph with tool calling.
-  * **Simulation Active (Offline Fallback)**: If API keys are missing or the backend is offline, the frontend seamlessly engages an integrated simulation engine, demonstrating all 5 tools, updating fields, and returning chat feedback in real-time.
+# 🩺 AI-Powered HCP CRM Interaction Assistant
+
+> An AI-first Healthcare CRM Assistant built with **React, FastAPI, LangGraph, and Large Language Models (LLMs)** that enables Healthcare Professional (HCP) interaction logging entirely through natural language.
+
+## 🌐 Live Demo
+
+**🔗 Live Application:** https://smart-hcp-logger-fxum.vercel.app/
 
 ---
 
-## 📦 Project Structure
+## 📖 Overview
+
+The AI-Powered HCP CRM Interaction Assistant is designed to simplify and automate the process of recording Healthcare Professional (HCP) interactions.
+
+Instead of manually filling CRM forms, users simply describe their interaction in natural language through an AI chat interface. The AI extracts structured information, invokes LangGraph tools, and automatically updates the CRM form.
+
+The application follows an **AI-first workflow**, ensuring that all interaction data is managed through intelligent agents rather than manual form editing.
+
+---
+
+# ✨ Features
+
+- 🤖 AI-powered CRM form auto-population
+- 💬 Natural language interaction logging
+- ✏️ AI-driven editing of existing interaction fields
+- 📄 Automatic professional CRM summary generation
+- ✅ Form validation for missing information
+- 📌 Intelligent follow-up action suggestions
+- 🔄 LangGraph agent workflow with tool orchestration
+- 🛡️ Simulation mode when API keys are unavailable
+- 🎨 Modern split-screen responsive UI
+- ⚡ FastAPI backend with React frontend
+
+---
+
+# 🖥️ Application Layout
+
+The application consists of two primary panels.
+
+## Left Panel
+
+A structured Healthcare CRM interaction form containing fields such as:
+
+- HCP Name
+- Specialty
+- Organization
+- Interaction Type
+- Interaction Date
+- Products Discussed
+- Topics Discussed
+- Materials Shared
+- Samples Distributed
+- Follow-up Date
+- Sentiment
+- Interaction Outcome
+- Executive Summary
+
+> **Important:** Manual editing is intentionally disabled. The form can only be modified through AI interactions.
+
+---
+
+## Right Panel
+
+An AI Assistant Chat interface where users interact using natural language.
+
+Example:
+
+```text
+Yesterday I met Dr. Sarah Jenkins at General Hospital.
+
+We discussed CardioLife.
+
+The interaction was positive.
+
+I shared one brochure.
+
+Please log this interaction.
 ```
+
+The AI automatically fills the CRM form.
+
+---
+
+# 🏗️ Architecture
+
+```text
+                 User
+                   │
+                   ▼
+         AI Chat Interface (React)
+                   │
+                   ▼
+              FastAPI Backend
+                   │
+                   ▼
+            LangGraph Workflow
+                   │
+        ┌──────────┴──────────┐
+        ▼                     ▼
+    LLM Reasoning        Tool Selection
+        │                     │
+        └──────────┬──────────┘
+                   ▼
+             LangGraph Tools
+                   │
+                   ▼
+        SQLite Interaction State
+                   │
+                   ▼
+        Auto-update CRM Form
+```
+
+---
+
+# 🛠️ Technology Stack
+
+## Frontend
+
+- React (Vite)
+- Redux Toolkit
+- Vanilla CSS
+- Lucide React
+
+## Backend
+
+- Python
+- FastAPI
+- SQLAlchemy
+- SQLite
+
+## AI & Agent Framework
+
+- LangGraph
+- LangChain
+- Google Gemini
+- Groq
+- OpenAI
+
+---
+
+# 🤖 LangGraph Tools
+
+The application implements **five AI tools**.
+
+---
+
+## 1️⃣ Log Interaction Tool
+
+Extracts structured information from natural language and populates the CRM form.
+
+Example:
+
+```text
+Yesterday I met Dr. Sarah Jenkins.
+
+We discussed CardioLife.
+
+The interaction was positive.
+
+I shared one brochure.
+```
+
+Automatically extracts:
+
+- HCP Name
+- Date
+- Products
+- Sentiment
+- Materials Shared
+- Summary
+
+---
+
+## 2️⃣ Edit Interaction Tool
+
+Updates only requested fields while preserving existing information.
+
+Example:
+
+```text
+Change the sentiment to Neutral.
+
+Replace CardioLife with CardioMax.
+```
+
+Only the specified fields are modified.
+
+---
+
+## 3️⃣ Generate Summary Tool
+
+Creates a professional CRM summary.
+
+Example:
+
+```text
+Generate a CRM summary.
+```
+
+---
+
+## 4️⃣ Validate Interaction Tool
+
+Checks the form for missing or incomplete fields.
+
+Example:
+
+```text
+Validate this interaction.
+```
+
+---
+
+## 5️⃣ Suggest Follow-up Tool
+
+Generates intelligent follow-up recommendations.
+
+Example:
+
+```text
+Suggest follow-up tasks.
+```
+
+---
+
+# 📂 Project Structure
+
+```text
 hcp-crm-assistant/
+│
 ├── backend/
 │   ├── app/
-│   │   ├── __init__.py
-│   │   ├── agent.py         # LangGraph workflow & tools (Log, Edit, Summarize, Validate, Suggest)
-│   │   ├── database.py      # SQLite db models and helper transactions
-│   │   ├── main.py          # FastAPI application routes
-│   │   └── schemas.py       # Pydantic validation schemas
-│   ├── requirements.txt     # Python backend dependencies
-│   └── test_agent.py        # Independent backend validation script
-└── frontend/
-    ├── index.html           # HTML container
-    ├── package.json         # Node.js dependencies
-    ├── vite.config.js       # Vite configuration
-    └── src/
-        ├── main.jsx         # App mounting entrypoint
-        ├── App.jsx          # Front-end UI (Split panels, suggestion pill actions, simulation fallback)
-        ├── index.css        # Premium global dark-mode styles
-        └── store/
-            └── store.js     # Redux Toolkit global store and slices
+│   │   ├── agent.py
+│   │   ├── database.py
+│   │   ├── main.py
+│   │   └── schemas.py
+│   │
+│   ├── requirements.txt
+│   ├── test_agent.py
+│   └── hcp_crm.db
+│
+├── frontend/
+│   ├── src/
+│   ├── package.json
+│   ├── vite.config.js
+│   └── index.html
+│
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## 🚀 Setup & Execution Instructions
+# 🚀 Installation
 
-### 1. Backend Server Setup
-From the `backend/` directory:
+## Clone Repository
 
-1. **Install requirements**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+git clone https://github.com/Harish-Uta17/smart-hcp-logger.git
 
-2. **Configure API Keys (Optional)**:
-   Create a `.env` file in the `backend/` directory:
-   ```env
-   # Choose one or more:
-   GROQ_API_KEY=your_groq_api_key_here
-   GEMINI_API_KEY=your_gemini_api_key_here
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
-
-3. **Start the FastAPI Backend Server**:
-   ```bash
-   uvicorn app.main:app --reload --port 8000
-   ```
-   *The server runs locally at `http://localhost:8000`.*
-
-4. **Verify backend tools (Unit Tests)**:
-   ```bash
-   python test_agent.py
-   ```
-
-### 2. Frontend React Client Setup
-From the `frontend/` directory:
-
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-2. **Start the Vite Web Server**:
-   ```bash
-   npm run dev
-   ```
-   *Open your browser and navigate to `http://localhost:5173` to access the application.*
+cd smart-hcp-logger
+```
 
 ---
 
-## 🤖 5 LangGraph Agent Tools Implemented
+# Backend Setup
 
-1. **Log Interaction Tool**: Parses natural language details to populate fields: HCP Name, Specialty, Organization, Interaction Type, Interaction Date, Products, Sentiment, Materials Shared, and Summary.
-   * *Example prompt:* `"Yesterday I met Dr. Sarah Jenkins at General Hospital. We discussed CardioLife. Sentiment was positive. I shared one brochure."*
-2. **Edit Interaction Tool**: Updates only specific requested fields (e.g. products, sentiment, specialty) while strictly preserving all other existing form data.
-   * *Example prompt:* `"Actually, change the sentiment to Neutral and replace CardioLife with CardioMax."*
-3. **Generate Summary Tool**: Uses the LLM (or fallback builder) to generate a concise, professional CRM paragraph describing the meeting, automatically writing it into the *CRM Executive Summary* field.
-   * *Example prompt:* `"Generate a CRM summary of this interaction."*
-4. **Validate Interaction Tool**: Reviews the active form for incomplete or missing fields, returning a structured checklist of what is missing.
-   * *Example prompt:* `"Validate this interaction."*
-5. **Suggest Follow-up Tool**: Analyzes the meeting context (sentiment, objections, products) to generate 3-4 professional follow-up actions.
-   * *Example prompt:* `"Suggest some follow-up tasks."*
+Move into backend
+
+```bash
+cd backend
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a `.env`
+
+```env
+GOOGLE_API_KEY=your_google_api_key
+
+# or
+
+GROQ_API_KEY=your_groq_api_key
+
+# or
+
+OPENAI_API_KEY=your_openai_api_key
+```
+
+Run backend
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+Backend runs on
+
+```
+http://localhost:8000
+```
+
+---
+
+# Frontend Setup
+
+Move into frontend
+
+```bash
+cd frontend
+```
+
+Install packages
+
+```bash
+npm install
+```
+
+Run frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs on
+
+```
+http://localhost:5173
+```
+
+---
+
+# 🧪 Test Backend
+
+```bash
+python test_agent.py
+```
+
+---
+
+# 🌍 Deployment
+
+## Live Demo
+
+https://smart-hcp-logger-fxum.vercel.app/
+
+---
+
+# Example Workflow
+
+### User
+
+```text
+Yesterday I met Dr. Sarah Jenkins.
+
+We discussed CardioLife.
+
+She was interested in clinical studies.
+
+I shared a brochure.
+
+Please log the interaction.
+```
+
+↓
+
+AI selects
+
+```
+Log Interaction Tool
+```
+
+↓
+
+CRM Form is automatically populated.
+
+---
+
+### User
+
+```text
+Actually change the sentiment to Neutral.
+```
+
+↓
+
+AI selects
+
+```
+Edit Interaction Tool
+```
+
+↓
+
+Only the sentiment field changes.
+
+---
+
+### User
+
+```text
+Generate summary.
+```
+
+↓
+
+AI selects
+
+```
+Generate Summary Tool
+```
+
+---
+
+### User
+
+```text
+Validate interaction.
+```
+
+↓
+
+AI selects
+
+```
+Validate Interaction Tool
+```
+
+---
+
+### User
+
+```text
+Suggest follow-up.
+```
+
+↓
+
+AI selects
+
+```
+Suggest Follow-up Tool
+```
+
+---
+
+# 📌 Key Highlights
+
+- AI-first CRM experience
+- No manual form filling
+- LangGraph agent workflow
+- LLM-powered reasoning
+- Automatic tool selection
+- Professional healthcare CRM automation
+- Offline simulation fallback
+- Clean React + FastAPI architecture
+
+---
+
+# 👨‍💻 Author
+
+**Harish Kumar**
+
+GitHub: https://github.com/Harish-Uta17
+
+LinkedIn: https://www.linkedin.com/in/harish-uta17/
+
+---
+
+# ⭐ Support
+
+If you found this project helpful, consider giving it a ⭐ on GitHub!
