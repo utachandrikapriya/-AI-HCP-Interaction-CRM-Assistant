@@ -11,7 +11,7 @@ import {
   setApiKeysStatus, resetAll 
 } from './store/store'
 
-const BACKEND_URL = "http://localhost:8000"
+const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
 export default function App() {
   const dispatch = useDispatch()
